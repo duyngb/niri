@@ -273,6 +273,9 @@ pub struct Column<W: LayoutElement> {
 
     /// Configurable properties of the layout.
     options: Rc<Options>,
+
+    /// Forced vertical offset of this column
+    y_offset: f64,
 }
 
 /// Extra per-tile data.
@@ -3032,6 +3035,7 @@ impl<W: LayoutElement> Column<W> {
             working_area,
             scale,
             options,
+            y_offset: 0.,
         };
 
         let is_pending_fullscreen = tile.window().is_pending_fullscreen();
@@ -3440,6 +3444,12 @@ impl<W: LayoutElement> Column<W> {
 
             assert_eq!(auto_tiles_left, 0);
         }
+
+        self.y_offset = if height_left > 0. {
+            height_left / 2.
+        } else {
+            0.
+        };
 
         for (tile, h) in zip(&mut self.tiles, heights) {
             let WindowHeight::Fixed(height) = h else {
@@ -3857,6 +3867,8 @@ impl<W: LayoutElement> Column<W> {
         if !self.is_fullscreen {
             y = self.working_area.loc.y + self.options.gaps;
         }
+
+        y += self.y_offset;
 
         // Chain with a dummy value to be able to get one past all tiles' Y.
         let dummy = TileData {
