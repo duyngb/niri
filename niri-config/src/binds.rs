@@ -338,6 +338,12 @@ pub enum Action {
     UnsetWindowUrgent(u64),
     #[knuffel(skip)]
     LoadConfigFile,
+    MprisPlayPause(#[knuffel(argument, str)] String),
+    MprisPause(#[knuffel(argument, str)] String),
+    MprisPlay(#[knuffel(argument, str)] String),
+    MprisStop(#[knuffel(argument, str)] String),
+    MprisPrevious(#[knuffel(argument, str)] String),
+    MprisNext(#[knuffel(argument, str)] String),
 }
 
 impl From<niri_ipc::Action> for Action {
@@ -632,6 +638,12 @@ impl From<niri_ipc::Action> for Action {
             niri_ipc::Action::SetWindowUrgent { id } => Self::SetWindowUrgent(id),
             niri_ipc::Action::UnsetWindowUrgent { id } => Self::UnsetWindowUrgent(id),
             niri_ipc::Action::LoadConfigFile {} => Self::LoadConfigFile,
+            niri_ipc::Action::MprisPlayPause { player } => Self::MprisPlayPause(player),
+            niri_ipc::Action::MprisPlay { player } => Self::MprisPlay(player),
+            niri_ipc::Action::MprisPause { player } => Self::MprisPause(player),
+            niri_ipc::Action::MprisStop { player } => Self::MprisStop(player),
+            niri_ipc::Action::MprisPrevious { player } => Self::MprisPrevious(player),
+            niri_ipc::Action::MprisNext { player } => Self::MprisNext(player),
         }
     }
 }

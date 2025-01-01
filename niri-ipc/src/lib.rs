@@ -883,6 +883,36 @@ pub enum Action {
     /// Can be useful for scripts changing the config file, to avoid waiting the small duration for
     /// niri's config file watcher to notice the changes.
     LoadConfigFile {},
+    /// Toggle play state of a player
+    MprisPlayPause {
+        /// Player name to control
+        player: String,
+    },
+    /// Set player state to Playing
+    MprisPlay {
+        /// Player name to control
+        player: String,
+    },
+    /// Set player state to Paused
+    MprisPause {
+        /// Player name to control
+        player: String,
+    },
+    /// Set player state to Stopped
+    MprisStop {
+        /// Player name to control
+        player: String,
+    },
+    /// Go to next track
+    MprisNext {
+        /// Player name to control
+        player: String,
+    },
+    /// Go to previous track
+    MprisPrevious {
+        /// Player name to control
+        player: String,
+    },
 }
 
 /// Change in window or column size.

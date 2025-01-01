@@ -2149,6 +2149,30 @@ impl State {
                     watcher.load_config();
                 }
             }
+            Action::MprisPlayPause(_player) => {
+                #[cfg(feature = "dbus")]
+                crate::dbus::mpris_controller::play_pause(self, _player.as_ref());
+            }
+            Action::MprisPause(_player) => {
+                #[cfg(feature = "dbus")]
+                crate::dbus::mpris_controller::pause(self, _player.as_ref());
+            }
+            Action::MprisPlay(_player) => {
+                #[cfg(feature = "dbus")]
+                crate::dbus::mpris_controller::play(self, _player.as_ref());
+            }
+            Action::MprisStop(_player) => {
+                #[cfg(feature = "dbus")]
+                crate::dbus::mpris_controller::stop(self, _player.as_ref());
+            }
+            Action::MprisPrevious(_player) => {
+                #[cfg(feature = "dbus")]
+                crate::dbus::mpris_controller::previous(self, _player.as_ref());
+            }
+            Action::MprisNext(_player) => {
+                #[cfg(feature = "dbus")]
+                crate::dbus::mpris_controller::next(self, _player.as_ref());
+            }
         }
     }
 
