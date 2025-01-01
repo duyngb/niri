@@ -9,6 +9,7 @@ pub mod freedesktop_login1;
 pub mod freedesktop_screensaver;
 pub mod gnome_shell_introspect;
 pub mod gnome_shell_screenshot;
+pub mod mpris_controller;
 pub mod mutter_display_config;
 pub mod mutter_service_channel;
 
@@ -39,6 +40,7 @@ pub struct DBusServers {
     pub conn_login1: Option<Connection>,
     pub conn_locale1: Option<Connection>,
     pub conn_keyboard_monitor: Option<Connection>,
+    pub client_conn: Option<Connection>,
 }
 
 impl DBusServers {
@@ -169,6 +171,9 @@ impl DBusServers {
                 warn!("error starting locale1 watcher: {err:?}");
             }
         }
+
+        // Client connection is safe to have here
+        dbus.client_conn = Connection::session().map_or(None, |c| Some(c));
 
         niri.dbus = Some(dbus);
     }
