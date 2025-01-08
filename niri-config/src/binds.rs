@@ -911,15 +911,23 @@ where
             }
             match Action::decode_node(child, ctx) {
                 Ok(action) => {
-                    if !matches!(action, Action::Spawn(_) | Action::SpawnSh(_)) {
-                        if let Some(node) = allow_when_locked_node {
-                            ctx.emit_error(DecodeError::unexpected(
-                                node,
-                                "property",
-                                "allow-when-locked can only be set on spawn binds",
-                            ));
+                    match action {
+                        Action::Spawn(_)
+                        | Action::MprisNext(_)
+                        | Action::MprisPrevious(_)
+                        | Action::MprisPlay(_)
+                        | Action::MprisPause(_)
+                        | Action::MprisPlayPause(_) => (),
+                        _ => {
+                            if let Some(node) = allow_when_locked_node {
+                                ctx.emit_error(DecodeError::unexpected(
+                                    node,
+                                    "property",
+                                    "allow-when-locked cannot be set on this bind",
+                                ));
+                            }
                         }
-                    }
+                    };
 
                     // The toggle-inhibit action must always be uninhibitable.
                     // Otherwise, it would be impossible to trigger it.
