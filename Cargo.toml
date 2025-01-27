@@ -117,6 +117,12 @@ features = [
     "wayland_frontend",
 ]
 
+[dependencies.pulse]
+package = "libpulse-binding"
+version = "^2.28"
+optional = true
+features = ["pa_v15"]
+
 [dev-dependencies]
 approx = "0.5.1"
 calloop-wayland-source = "0.4.1"
@@ -146,6 +152,8 @@ profile-with-tracy-ondemand = ["profile-with-tracy", "tracy-client/ondemand", "t
 profile-with-tracy-allocations = ["profile-with-tracy"]
 # Enables dinit integration (global environment).
 dinit = []
+# Add PulseAudio utilities
+pulseaudio = ["dep:pulse"]
 
 [lints.clippy]
 new_without_default = "allow"
