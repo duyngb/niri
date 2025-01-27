@@ -2173,9 +2173,8 @@ impl State {
                 #[cfg(feature = "dbus")]
                 crate::dbus::mpris_controller::next(self, _player.as_ref());
             }
-            Action::PaVolumeUp(_amount) => {
-            }
-            Action::PaVolumeDown(_amount) => {
+            Action::PaVolume(_amount) => {
+                trace!("pa_volume {:?}", _amount);
             }
         }
     }
