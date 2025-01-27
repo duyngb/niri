@@ -344,6 +344,8 @@ pub enum Action {
     MprisStop(#[knuffel(argument, str)] String),
     MprisPrevious(#[knuffel(argument, str)] String),
     MprisNext(#[knuffel(argument, str)] String),
+    PaVolumeUp(#[knuffel(argument, str)] SizeChange),
+    PaVolumeDown(#[knuffel(argument, str)] SizeChange),
 }
 
 impl From<niri_ipc::Action> for Action {
@@ -644,6 +646,8 @@ impl From<niri_ipc::Action> for Action {
             niri_ipc::Action::MprisStop { player } => Self::MprisStop(player),
             niri_ipc::Action::MprisPrevious { player } => Self::MprisPrevious(player),
             niri_ipc::Action::MprisNext { player } => Self::MprisNext(player),
+            niri_ipc::Action::PaVolumeUp { amount } => Self::PaVolumeUp(amount),
+            niri_ipc::Action::PaVolumeDown { amount } => Self::PaVolumeDown(amount),
         }
     }
 }
@@ -861,7 +865,9 @@ where
                         | Action::MprisPrevious(_)
                         | Action::MprisPlay(_)
                         | Action::MprisPause(_)
-                        | Action::MprisPlayPause(_) => (),
+                        | Action::MprisPlayPause(_)
+                        | Action::PaVolumeUp(_)
+                        | Action::PaVolumeDown(_) => {}
                         _ => {
                             if let Some(node) = allow_when_locked_node {
                                 ctx.emit_error(DecodeError::unexpected(
