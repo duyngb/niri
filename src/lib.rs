@@ -31,5 +31,8 @@ pub mod pw_utils;
 #[cfg(not(feature = "xdp-gnome-screencast"))]
 pub use dummy_pw_utils as pw_utils;
 
+#[cfg(feature = "pulseaudio")]
+pub mod pa_utils;
+
 #[cfg(test)]
 mod tests;

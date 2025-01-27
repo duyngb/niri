@@ -415,6 +415,9 @@ pub struct Niri {
     /// Window ID for the "dynamic cast" special window for the xdp-gnome picker.
     #[cfg(feature = "xdp-gnome-screencast")]
     pub dynamic_cast_id_for_portal: MappedId,
+
+    #[cfg(feature = "pulseaudio")]
+    pub pa: Option<crate::pa_utils::Pa>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -2705,6 +2708,9 @@ impl Niri {
 
             #[cfg(feature = "xdp-gnome-screencast")]
             dynamic_cast_id_for_portal: MappedId::next(),
+
+            #[cfg(feature = "pulseaudio")]
+            pa: None,
         };
 
         niri.reset_pointer_inactivity_timer();

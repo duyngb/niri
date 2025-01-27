@@ -2174,7 +2174,8 @@ impl State {
                 crate::dbus::mpris_controller::next(self, _player.as_ref());
             }
             Action::PaVolume(_amount) => {
-                trace!("pa_volume {:?}", _amount);
+                #[cfg(feature = "pulseaudio")]
+                crate::pa_utils::Pa::update_vol(self, _amount);
             }
         }
     }

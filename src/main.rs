@@ -223,6 +223,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         state.niri.a11y.start();
     }
 
+    #[cfg(feature = "pulseaudio")]
+    niri::pa_utils::Pa::start(&mut state);
+
     if env::var_os("NIRI_DISABLE_SYSTEM_MANAGER_NOTIFY").map_or(true, |x| x != "1") {
         // Notify systemd we're ready.
         if let Err(err) = sd_notify::notify(true, &[NotifyState::Ready]) {
