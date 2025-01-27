@@ -973,13 +973,8 @@ pub enum Action {
         /// Player name to control
         player: String,
     },
-    /// Increase volume of default pulse audio sink
-    PaVolumeUp {
-        /// Amount/Set value of volume to change
-        amount: SizeChange,
-    },
-    /// Decrease volume of default pulse audio sink
-    PaVolumeDown {
+    /// Change volume of default pulse audio sink
+    PaVolume {
         /// Amount/Set value of volume to change
         amount: SizeChange,
     },
