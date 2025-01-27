@@ -25,5 +25,8 @@ pub mod ui;
 pub mod utils;
 pub mod window;
 
+#[cfg(feature = "pulseaudio")]
+pub mod pa_utils;
+
 #[cfg(test)]
 mod tests;

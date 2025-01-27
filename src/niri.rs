@@ -414,6 +414,9 @@ pub struct Niri {
 
     #[cfg(feature = "xdp-gnome-screencast")]
     pub casting: Screencasting,
+
+    #[cfg(feature = "pulseaudio")]
+    pub pa: Option<crate::pa_utils::Pa>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -2625,6 +2628,9 @@ impl Niri {
 
             #[cfg(feature = "xdp-gnome-screencast")]
             casting: screencasting,
+
+            #[cfg(feature = "pulseaudio")]
+            pa: None,
         };
 
         niri.reset_pointer_inactivity_timer();
