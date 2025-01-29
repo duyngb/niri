@@ -32,6 +32,7 @@ struct Pai {
     sink_index: Cell<Option<u32>>,
     base_volume: Cell<Volume>,
     chan_volumes: Cell<ChannelVolumes>,
+    mute: Cell<bool>,
 }
 
 /// PulseAudio shareable state
@@ -128,12 +129,20 @@ impl Pa {
         };
     }
 
-    pub fn mute(state: &State) {
-        let Some(..) = state.niri.pa.as_ref() else {
+    pub fn toggle_mute(state: &State) {
+        let Some(pa) = state.niri.pa.as_ref() else {
             return;
         };
 
-        trace!("pa_mute");
+        trace!("pa_toggle_mute");
+
+        pa.mainloop_mut().lock();
+        let set_mute = !pa.0.mute.get();
+        if let Some(index) = pa.0.sink_index.get() {
+            pa.introspect()
+                .set_sink_mute_by_index(index, set_mute, None);
+        }
+        pa.mainloop_mut().unlock();
     }
 
     fn new() -> Option<Self> {
@@ -150,6 +159,7 @@ impl Pa {
             sink_index: Cell::new(None),
             base_volume: Cell::new(Volume(65535)),
             chan_volumes: Cell::new(ChannelVolumes::default()),
+            mute: Cell::new(false),
         })))
     }
 
@@ -291,6 +301,7 @@ impl Pa {
             s.0.sink_index.set(Some(info.index));
             s.0.base_volume.set(info.base_volume);
             s.0.chan_volumes.set(info.volume.to_owned());
+            s.0.mute.set(info.mute);
         }
     }
 }
