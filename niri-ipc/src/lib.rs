@@ -918,6 +918,8 @@ pub enum Action {
         /// Amount/Set value of volume to change
         amount: SizeChange,
     },
+    /// Toggle mute state of default pulse audio sink
+    PaToggleMute {},
 }
 
 /// Change in window or column size.

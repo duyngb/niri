@@ -345,6 +345,7 @@ pub enum Action {
     MprisPrevious(#[knuffel(argument, str)] String),
     MprisNext(#[knuffel(argument, str)] String),
     PaVolume(#[knuffel(argument, str)] SizeChange),
+    PaToggleMute,
 }
 
 impl From<niri_ipc::Action> for Action {
@@ -646,6 +647,7 @@ impl From<niri_ipc::Action> for Action {
             niri_ipc::Action::MprisPrevious { player } => Self::MprisPrevious(player),
             niri_ipc::Action::MprisNext { player } => Self::MprisNext(player),
             niri_ipc::Action::PaVolume { amount } => Self::PaVolume(amount),
+            niri_ipc::Action::PaToggleMute {} => Self::PaToggleMute,
         }
     }
 }

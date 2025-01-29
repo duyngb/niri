@@ -2177,6 +2177,10 @@ impl State {
                 #[cfg(feature = "pulseaudio")]
                 crate::pa_utils::Pa::update_vol(self, _amount);
             }
+            Action::PaToggleMute => {
+                #[cfg(feature = "pulseaudio")]
+                crate::pa_utils::Pa::toggle_mute(self);
+            }
         }
     }
 
